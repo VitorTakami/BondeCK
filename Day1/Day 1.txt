@@ -1,0 +1,110 @@
+Day 1
+
+- Play with kubernets
+- Distribuição para kubernets:
+	- debian
+
+- FOntes:
+	- kubernets.io
+	- https://12factor.net/pt_br/
+	- https://github.com/kubernetes/minikube/releases
+
+
+- Papéis:
+	- Nodes:
+		- 1 master e 2 workers
+			- Master: kubeapi, etcd (database)
+			- Worker
+			- Portas: 
+
+		- kubelet:
+			- Agent do kubernets, roda em todos os nodes
+
+
+	- Pod:
+		- Menor unidade computacional do kubernets (um ou mais containers);
+		- Diferença entre pod e container:
+			- Um pod pode abrigar mais de um container
+			- Caso haja mais de um container no mesmo pod, apenas 1 IP será utilizado e o mesmo namespace
+			- Todos os containers que estão no mesmo pod compartilhar o mesmo namespace
+
+	- Controllers:
+		- Faz a orquestração de todo o cluster
+
+
+
+
+
+- Ambiente de teste:
+	- Instalar docker rootless
+		curl -fsSL https://get.docker.com | bash -
+		dockerd-rootless-setuptool.sh install
+		https://rootlesscontaine.rs/getting-started/common/cgroup2/
+
+
+	- Instalar minikube: https://github.com/kubernetes/minikube/releases
+
+		https://minikube.sigs.k8s.io/docs/drivers/docker/
+
+
+	- Instalar kubelet: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+		curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+		curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+		echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+		sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+
+	- Forçando minikube 
+		sudo minikube start --driver=docker --force
+		sudo sysctl fs.protected_regular=0
+
+
+	- Habilitando bash completion
+		apt-get install bash-completion
+		sudo kubectl completion bash > /etc/bash_completion.d/kubectl
+
+
+	- Comandos:
+		kubectl get pods
+   		kubectl get pods
+   		kubectl get pods -n kube-system
+   		kubectl get pods --all-namespaces
+   		kubectl get namespaces
+   		kubectl describe pods -n kube-system
+   		kubectl describe pods -n kube-system <pode_name>
+   		kubectl run nginx --image=nginx
+   			- Cria um deployment para nginx
+   			- Cria um pod para nginx
+   			- Cria um replicaset 
+   		kubectl describe pods nginx
+   		kubectl get pods nginx -o wide
+   		kubectl get pods nginx -o yaml
+   		kubectl get pods nginx -o yaml > meu_primeiro_pod.yaml
+   		kubectl create namespace webserver
+   		kubectl create -f meu_primeiro_pod.yaml
+   		kubectl run nginx --image=nginx --dry-run=client -o yaml > meu_segundo_pod.yaml
+   		kubectl expose pod nginx # Cria um service para o pod
+   		minikube ssh
+   		curl <Cluster-IP>
+   		kubectl describe services nginx
+   		kubectl get endpoints
+   		kubectl edit service <service_name>
+   		kubectl explain services
+   		kubectl get all
+   		kubectl get pods,services,endpoints
+   		kubectl get pods -n kube-system -o wide
+   		kubectl create deployment nginx2 --image=nginx -o yaml > deployment.yaml
+   		kubectl expose deployment nginx --port 80
+   		kubectl expose deployment nginx --type=NodePort --port 80
+
+   	NodePort:
+   		- Binda uma porta do cluster para todo o pod declarado
+
+
+   	-
+
+
+
+		
+

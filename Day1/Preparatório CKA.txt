@@ -1,0 +1,63 @@
+Preparatório CKA
+
+Questão 1)
+
+	Criar um pod utilizando a imagem do Nginx 1.18.0, com o nome de giropops no namespace strigus
+
+		Por linha de comando: 
+
+		kubectl run giropops --image nginx:1.18.0 -n strigus
+
+		Por arquivo:
+
+		kubectl run --image nginx:1.18.0 --dry-run=client -o yaml > pod-nginx.yaml
+	
+		apiVersion: v1
+		kind: Pod
+		metadata:
+		  creationTimestamp: null
+		  labels:
+		    run: giropops
+		  name: giropops
+		  namespace: strigus
+		spec:
+		  containers:
+		  - image: nginx:1.18.0
+		    name: giropops
+		    resources: {}
+		  dnsPolicy: ClusterFirst
+		  restartPolicy: Always
+		status: {}
+
+		kubectl create -f pod-nginx.yaml
+
+Questão 2)
+
+	Aumentar a quantidade de réplicas do deployment girus, que está utilizando a imagem do nginx 1.18.0, para 3 réplicas. O deployment está no namespace strigus.
+
+	1ª Forma
+	kubectl scale deployment -n strigus girus --replicas 3
+
+	2ª Forma
+	kubectl create deployment girus --image nginx:1.18.0 --port 80 --namespace	strigus --dry-run=client -o yaml > deployment-strigus.yaml	
+
+	kubectl apply -f deployment-strigus.yaml
+
+	3ª Forma
+	kubectl edit deployment -n strigus # lá dentro alteramos a quantidade de replicas.
+
+Questão 3)
+	
+	Precisamos atualizar a versão do nginx do Pod giropops. Ele está na versão 1.18.0 e precisamos atualizar para versão 1.21.1
+
+
+	1ª Forma)
+	kubectl edit pod -n strigus giropops
+
+	2ª Forma)
+	kubectl set image pod giropops -n strigus giropops=nginx:1.21.0
+
+
+	
+
+
